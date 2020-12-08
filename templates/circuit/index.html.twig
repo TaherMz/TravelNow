@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block title %}TravelNow::Circuits{% endblock %}
+{% block body %}
+    <style>
+        body{background-color: #dfdfdf}
+        table{text-align: center;}
+    </style>
+    <br><br>
+    <h2 style="text-align: center">Liste des circuits</h2>
+    <br><br>
+    <table class="table table-sm table-dark table table-striped " >
+        <thead>
+            <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                <th>Code circuit</th>
+                {% endif %}
+                <th>Circuit</th><th>Durée circuit</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                <th>actions</th>
+                {% endif %}
+
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for circuit in circuits %}
+            <tr>
+                {% if is_granted('ROLE_ADMIN') %}<td>{{ circuit.codeCircuit }}</td>{% endif %}
+                <td> <a href="{{ path('circuit_show', {'id': circuit.id}) }}">{{ circuit.desCircuit }}</a> </td>
+                <td>{{ circuit.dureeCircuit }}</td>
+                <td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a>{{ include('circuit/_delete_form.html.twig') }}</a>
+                    <a href="{{ path('circuit_edit', {'id': circuit.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('circuit_new') }}">Create new circuit</a>
+    {% endif %}
+{% endblock %}

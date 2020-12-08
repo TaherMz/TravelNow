@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Destination{% endblock %}
+
+{% block body %}
+    <style>
+        body{background-color: #dfdfdf}
+        table{text-align: center;}
+    </style>
+    <br><br>
+    <h1>Create new Destination</h1>
+
+    {{ include('destination/_form.html.twig') }}
+
+    <a href="{{ path('destination_index') }}" class="btn btn-primary">back to list</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        from_database:
+            entity:
+                class: App\Entity\Admin
+                property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            logout:
+                path: /logout
+                target: /
+            form_login:
+                check_path: login
+                default_target_path: home
+    access_control:
+        #- { path: ^/home, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+    encoders:
+        App\Entity\Admin:
+            algorithm: bcrypt
+            cost: 12

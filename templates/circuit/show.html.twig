@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% block title %}Circuit{% endblock %}
+{% block body %}
+    <style>
+        body{background-color: #dfdfdf}
+        table{text-align: center;}
+    </style>
+    <br><br>
+<h2>Circuit {{ circuit.desCircuit }} </h2>
+    <br><br>
+    <table class="table table-sm table-dark table table-striped ">
+        <tbody>
+        {% if is_granted('ROLE_ADMIN') %}
+            <tr>
+                <th>Id</th> <td>{{ circuit.id }}</td>
+            </tr>
+            <tr>
+                <th>Code_circuit</th> <td>{{ circuit.codeCircuit }}</td>
+            </tr>
+        {% endif %}
+            <tr>
+                <th>Circuit</th> <td>{{ circuit.desCircuit }}</td>
+            </tr>
+            <tr>
+                <th>Durée circuit</th> <td>{{ circuit.dureeCircuit }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br><br>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('circuit_edit', {'id': circuit.id}) }}">edit</a>
+    {{ include('circuit/_delete_form.html.twig') }}
+    {% endif %}
+    <h2 style="text-align: center">Liste des etapes de  circuit {{ circuit.getDesCircuit() }}</h2>
+    <br><br>
+
+    <table class="table table-sm table-dark table table-striped ">
+        <thead>
+
+        <tr>
+            <th>Code Ville </th> <th>Circuit etape</th> <th>Durée etape</th> <th>Ordre etape</th>
+            {% if is_granted('ROLE_ADMIN') %} <th>Actions</th> {% endif %}
+        </tr>
+
+        </thead>
+        <tbody>
+        {% for etape in etapes %}
+        <tr>
+            <td>{{ etape.codeVilleEtape() }}</td>
+            <td>{{ etape.codeCircuitEtape() }}</td>
+            <td >{{ etape.dureeEtape() }}</td>
+            <td>{{ etape.ordreEtape() }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+            <td>
+                <a href="{{ path('etape_circuit_delete', {'id': etape.id}) }}">delete</a>
+                <a href="{{ path('etape_circuit_edit', {'id': etape.id}) }}">edit</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('etape_circuit_new') }}">Create new etape...</a>
+    {% endif %}
+    <br><br>
+    <a href="{{ path('circuit_index') }}" class="btn btn-primary">back to list</a>
+
+{% endblock %}
